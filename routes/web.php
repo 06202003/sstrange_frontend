@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\TestingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,7 +31,6 @@ Route::group([
     'middleware' => 'auth.token',
 ], function ($router) {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/testlomba', [DashboardController::class, 'lomba'])->name('lomba');
 
     Route::get('/user/profile', [ProfileController::class, 'index'])->name('user-profile');
 
@@ -40,6 +40,7 @@ Route::group([
     Route::get('/form', [FormController::class, 'index'])->name('form');
     Route::get('/result', [FormController::class, 'result'])->name('result');
     Route::get('/about', [DashboardController::class, 'about'])->name('about');
+    Route::get('/testing', [TestingController::class, 'index'])->name('testing');
 });
 
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google-auth');

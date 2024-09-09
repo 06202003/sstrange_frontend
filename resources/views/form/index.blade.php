@@ -188,30 +188,30 @@
             $(this).attr('title',title[i]).tooltip({container:"#tooltipBox"});
         })
 
-        function toggleInputLang() {
-            var submissionLanguage = document.getElementById("submission_language");
-            var selectedValue = submissionLanguage.options[submissionLanguage.selectedIndex].value;
-            var templateDirectoryPath = document.getElementById("templateDirectoryPath");
-            var commonContent = document.getElementById("commonContent");
-            var td1 = document.getElementById("td1");
-            var td2 = document.getElementById("td2");
+        // function toggleInputLang() {
+        //     var submissionLanguage = document.getElementById("submission_language");
+        //     var selectedValue = submissionLanguage.options[submissionLanguage.selectedIndex].value;
+        //     var templateDirectoryPath = document.getElementById("templateDirectoryPath");
+        //     var commonContent = document.getElementById("commonContent");
+        //     var td1 = document.getElementById("td1");
+        //     var td2 = document.getElementById("td2");
 
-            if (selectedValue === "java" || selectedValue === "py") {
-                templateDirectoryPath.style.display = "inline";
-                commonContent.style.display = "inline";
-                td1.classList.remove("mt-1");
-                td1.classList.add("mt-3");
-                td2.classList.remove("mt-1");
-                td2.classList.add("mt-3");
-            } else {
-                templateDirectoryPath.style.display = "none";
-                commonContent.style.display = "none";
-                td1.classList.remove("mt-3");
-                td1.classList.add("mt-1");
-                td2.classList.remove("mt-3");
-                td2.classList.add("mt-1");
-            }
-        }
+        //     if (selectedValue === "java" || selectedValue === "py") {
+        //         templateDirectoryPath.style.display = "inline";
+        //         commonContent.style.display = "inline";
+        //         td1.classList.remove("mt-1");
+        //         td1.classList.add("mt-3");
+        //         td2.classList.remove("mt-1");
+        //         td2.classList.add("mt-3");
+        //     } else {
+        //         templateDirectoryPath.style.display = "none";
+        //         commonContent.style.display = "none";
+        //         td1.classList.remove("mt-3");
+        //         td1.classList.add("mt-1");
+        //         td2.classList.remove("mt-3");
+        //         td2.classList.add("mt-1");
+        //     }
+        // }
 
         function toggleInputSubtype() {
             var submissionType = document.getElementById("submission_type");

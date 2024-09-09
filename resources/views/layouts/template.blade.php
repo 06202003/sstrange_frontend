@@ -41,7 +41,7 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown mr-5">
                     <div class="dropdown">
                         <a class="text-decoration-none text-dark" href="#" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -50,7 +50,7 @@
 
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="#" class="dropdown-item">
+                                <a href="user/profile" class="dropdown-item">
                                     <i class="mr-2 fas fa-file"></i>
                                     {{ __('My profile') }}
                                 </a>
