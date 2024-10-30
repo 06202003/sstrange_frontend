@@ -40,7 +40,7 @@ Route::group([
     Route::get('/form', [FormController::class, 'index'])->name('form');
     Route::get('/result', [FormController::class, 'result'])->name('result');
     Route::get('/about', [DashboardController::class, 'about'])->name('about');
-    Route::get('/testing', [TestingController::class, 'index'])->name('testing');
+    Route::get('/codegen', [TestingController::class, 'index'])->name('codegen');
 });
 
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google-auth');

@@ -1,76 +1,134 @@
 @extends('layouts.template')
 
 @section('content')
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">{{ __('About us') }}</h1>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+    <div class="container-fluid py-5">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-5 text-center mb-4 mb-md-0">
+                <img src="{{ asset('images/about.jpg') }}" alt="Logo" class="img-fluid w-75 rounded-3">
+            </div>
+            <div class="col-md-7">
+                <h1 class="mb-4">About SSTRANGE</h1>
+                <p class="lead"><strong>SSTRANGE</strong> is dedicated to enhancing assessment processes in higher education through innovative technology. Our tool leverages advanced techniques like MinHash and Super-Bit to efficiently detect similarities among academic submissions, even at scale.</p>
 
-    <!-- Main content -->
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row d-flex justify-content-center align-items-center">
-                                <div class="col-md-4">
-                                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-100">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="row mb-4">
-                                        <div class="col-md-12">
-                                            <h3>Our Story</h3>
-                                            <p>SSTRANGE (Scalable Similarity TRacker in Academia with Natural lanGuage Explanation) is dedicated to enhancing assessment processes in higher education through innovative technology. Our tool leverages advanced techniques like MinHash and Super-Bit to observe similarities among academic submissions efficiently and at scale.</p>
-                                        </div>
-                                    </div>
-                    
-                                    <div class="row mb-4">
-                                        <div class="col-md-12">
-                                            <h3>Our Team</h3>
-                                            <p>Our team comprises experts in computer science, machine learning, and educational assessment. We are committed to continuously improving SSTRANGE to meet the evolving needs of educators and students worldwide.</p>
-                                        </div>
-                                    </div>
-                    
-                                    <div class="row mb-4">
-                                        <div class="col-md-12">
-                                            <h3>Our Goals</h3>
-                                            <ul>
-                                                <li>Enhance the efficiency and scalability of assessment processes.</li>
-                                                <li>Provide robust tools that support multiple programming languages and sensitive similarity detection.</li>
-                                                <li>Empower educators with reliable insights into academic integrity and content originality.</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                    
-                                    <div class="row mb-4">
-                                        <div class="col-md-12">
-                                            <h3>Our Values</h3>
-                                            <ul>
-                                                <li><strong>Innovation:</strong> We embrace innovation to drive meaningful change in educational assessment.</li>
-                                                <li><strong>Integrity:</strong> We uphold the highest standards of academic integrity and ethical conduct.</li>
-                                                <li><strong>Collaboration:</strong> We foster collaboration among educators, researchers, and technologists to create impactful solutions.</li>
-                                                <li><strong>Excellence:</strong> We are committed to excellence in everything we do, ensuring our tools exceed expectations.</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    
-                                   <p class="fs-6"> <a href="https://github.com/oscarkarnalim/SSTRANGE" target="_blank" >Visit our GitHub repository</a> to learn more about our projects </p>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Buttons for Show/Hide Sections (Flex) -->
+                <div class="d-flex gap-2 mt-3">
+                    <button class="btn btn-primary flex-fill" id="btn-general">General Details</button>
+                    <button class="btn btn-primary flex-fill" id="btn-publications">Publications</button>
+                    <button class="btn btn-primary flex-fill" id="btn-comparison">CSTRANGE Comparison</button>
+                </div>
+
+                <!-- Content sections with animation -->
+                <div class="mt-4">
+                    <!-- General Details Section -->
+                    <div id="general-details" class="content-section" style="display: none; opacity: 0; transition: opacity 0.5s ease-in-out;">
+                        <h2>General Details</h2>
+                        <p>SSTRANGE is a scalable and efficient tool for detecting similarities in submissions using locality-sensitive hashing techniques such as MinHash and Super-Bit. It currently supports submissions in Java, Python, C#, Dart, and Web technologies (HTML, JS, CSS, PHP), with sensitivity to code similarity nuances.</p>
+                    </div>
+
+                    <!-- Publications Section -->
+                    <div id="publications" class="content-section" style="display: none; opacity: 0; transition: opacity 0.5s ease-in-out;">
+                        <h2>Publications</h2>
+                        <ul class="list-unstyled">
+                            <li class="mb-3">
+                                <i class="bi bi-journal-bookmark-fill"></i> 
+                                Find more details about SSTRANGE in the paper published in MDPI's Education Sciences as part of the special issue 
+                                "<a href="https://www.mdpi.com/2227-7102/13/1/54" target="_blank">Application of New Technologies for Assessment in Higher Education</a>".
+                            </li>
+                            <li class="mb-3">
+                                <i class="bi bi-journal-bookmark-fill"></i> 
+                                The C# mode is discussed in the paper published at the "<a href="https://ieeexplore.ieee.org/abstract/document/10260942" target="_blank">2023 IEEE International Conference on Advanced Learning Technologies (ICALT)</a>".
+                            </li>
+                            <li class="mb-3">
+                                <i class="bi bi-journal-bookmark-fill"></i> 
+                                Sensitive similarity is covered in the paper presented at the "<a href="https://ieeexplore.ieee.org/abstract/document/10500603" target="_blank">2024 IEEE World Engineering Education Conference (EDUNINE)</a>".
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Comparison Section -->
+                    <div id="comparison" class="content-section" style="display: none; opacity: 0; transition: opacity 0.5s ease-in-out;">
+                        <h2>Comparison with CSTRANGE</h2>
+                        <p>SSTRANGE is optimized for large-scale submissions with a focus on speed, making it more efficient than its counterpart, Comprehensive STRANGE (CSTRANGE), which provides more detailed similarity distinctions. For a deeper analysis, CSTRANGE may be recommended.</p>
                     </div>
                 </div>
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+        </div>
+        <div class="row justify-content-center text-center mt-3">
+            <div class="col-md-12">
+                <div class="jumbotron text-center">
+                    <h1 class="display-4">Let's Stay Connected</h1>
+                </div>
+                <p class="px-5">SSTRANGE is constantly evolving, much like the technology it's built upon. We love feedback, ideas, and collaboration, so don't hesitate to reach out to us with your thoughts. Together, we can create a smarter, more creative future for academic coding.</p>
+                <p>If you'd like to contact us, please feel free to reach out via the following methods:</p>
+                
+                <div class="contact-details">
+                    <p><strong>Email:</strong> <a href="mailto:oscar.karnalim@it.maranatha.edu">oscar.karnalim@it.maranatha.edu</a></p>
+                    <p><strong>Office:</strong> Maranatha Christian University, Bandung</p>
+                </div>
+            </div>
+        </div>
+        
+        
     </div>
-    <!-- /.content -->
 @endsection
+
+@section('custom-javascript')
+<script>
+    // Wait until the document is fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get buttons and content sections
+        const btnGeneral = document.getElementById('btn-general');
+        const btnPublications = document.getElementById('btn-publications');
+        const btnComparison = document.getElementById('btn-comparison');
+
+        const generalSection = document.getElementById('general-details');
+        const publicationsSection = document.getElementById('publications');
+        const comparisonSection = document.getElementById('comparison');
+
+        let currentSection = null; // Keep track of the currently visible section
+
+        // Function to hide all sections with opacity animation
+        function hideAllSections() {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.display = 'none'; // Hide after opacity transition
+            });
+        }
+
+        // Function to toggle section visibility
+        function toggleSection(section) {
+            if (currentSection === section) {
+                // If the clicked section is already visible, hide it
+                section.style.opacity = '0';
+                setTimeout(() => {
+                    section.style.display = 'none';
+                }, 500); // Match the opacity transition duration
+                currentSection = null; // Reset current section
+            } else {
+                // If the clicked section is different, hide others and show the clicked one
+                hideAllSections();
+                section.style.display = 'block'; // Show section first
+                setTimeout(() => {
+                    section.style.opacity = '1'; // Trigger opacity transition
+                }, 10); // Small delay to trigger opacity transition
+                currentSection = section; // Update the current visible section
+            }
+        }
+
+        // Button click events
+        btnGeneral.addEventListener('click', function() {
+            toggleSection(generalSection);
+        });
+
+        btnPublications.addEventListener('click', function() {
+            toggleSection(publicationsSection);
+        });
+
+        btnComparison.addEventListener('click', function() {
+            toggleSection(comparisonSection);
+        });
+    });
+</script>
+@endsection
+

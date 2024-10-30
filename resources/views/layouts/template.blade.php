@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <!-- Google Font: Source Sans Pro -->
+    
     <!-- Nucleo Icons -->
     <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
@@ -25,7 +26,11 @@
     @yield('vendor-css')
     @yield('custom-css')
 </head>
-
+<style>
+    .btn-primary{
+        background-color: #27a4b3 !important;
+    }
+</style>
 <body class="hold-transition sidebar-mini" style="font-family: Montserrat;">
     <div class="wrapper">
 
@@ -40,29 +45,26 @@
             </ul>
 
             <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown mr-5">
-                    <div class="dropdown">
-                        <a class="text-decoration-none text-dark" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ $name }}
-                        </a>
-
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="user/profile" class="dropdown-item">
-                                    <i class="mr-2 fas fa-file"></i>
-                                    {{ __('My profile') }}
-                                </a>
-                            </li>
-                            <li>
-                                <a id="logout" class="dropdown-item">
-                                    <i class="mr-2 fas fa-sign-out-alt"></i>
-                                    {{ __('Log Out') }}
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown navbarmedquer me-2 me-md-5">
+     
+                    <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ $name }}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li>
+                            <a href="user/profile" class="dropdown-item">
+                                <i class="fas fa-file me-2"></i>
+                                {{ __('My profile') }}
+                            </a>
+                        </li>
+                        <li>
+                            <a id="logout" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                {{ __('Log Out') }}
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>
@@ -130,7 +132,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!--   Another JS   -->
+    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
     <script type="module">
+        
         $(document).ready(function() {
 
             $("#logout").click(function(e) {

@@ -21,6 +21,7 @@ return array(
     'App\\Http\\Controllers\\PasswordController' => $baseDir . '/app/Http/Controllers/PasswordController.php',
     'App\\Http\\Controllers\\ProfileController' => $baseDir . '/app/Http/Controllers/ProfileController.php',
     'App\\Http\\Controllers\\SessionController' => $baseDir . '/app/Http/Controllers/SessionController.php',
+    'App\\Http\\Controllers\\TestingController' => $baseDir . '/app/Http/Controllers/TestingController.php',
     'App\\Http\\Controllers\\UserController' => $baseDir . '/app/Http/Controllers/UserController.php',
     'App\\Http\\Middleware\\AuthMiddleware' => $baseDir . '/app/Http/Middleware/AuthMiddleware.php',
     'App\\Http\\Middleware\\GuestMiddleware' => $baseDir . '/app/Http/Middleware/GuestMiddleware.php',

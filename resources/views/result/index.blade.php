@@ -29,9 +29,10 @@
                                 <tr>
                                     <th class="align-middle">No</th>
                                     <th class="align-middle">Filename / Directory Name</th>
-                                    <th class="align-middle">Similarity Measurement</th>
-                                    <th class="align-middle">Expired</th>
                                     <th class="align-middle">Result</th>
+                                    <th class="align-middle">Similarity Measurement</th>
+                                    <th class="align-middle">Generated Code</th>
+                                    <th class="align-middle">Expired</th>
                                     <th class="align-middle">Actions</th> 
                                 </tr>
                             </thead>
@@ -86,6 +87,51 @@
 @endsection
 @section('custom-javascript')
     <script type="text/javascript">
+        // Helper function to decode HTML entities
+        function decodeHTMLEntities(text) {
+            const textarea = document.createElement("textarea");
+            textarea.innerHTML = text;
+            return textarea.value;
+        }
+
+        //Updated function to format generated code
+        function formatGeneratedCode(generatedCode) {
+            console.log("Raw generatedCode data:", generatedCode);
+
+            let codeData;
+
+            try {
+                // Decode HTML entities if generatedCode is a string
+                if (typeof generatedCode === "string") {
+                    generatedCode = decodeHTMLEntities(generatedCode);
+                    codeData = JSON.parse(generatedCode);
+                } else {
+                    codeData = generatedCode; // Assume it's already an object or array
+                }
+            } catch (error) {
+                console.error("Error parsing generatedCode:", error);
+                return "<p>Error displaying code.</p>";
+            }
+
+            if (!Array.isArray(codeData)) {
+                return "<p>No recommendation code available</p>";
+            }
+
+            let formattedCode = "";
+            codeData.forEach(function(item, index) {
+                formattedCode += `
+                    <div class="mb-3">
+                        <strong>Question ${index + 1}:</strong><br>
+                        <pre>${item.code}</pre>
+                    </div>
+                `;
+            });
+
+            return formattedCode;
+        }
+
+
+
         $(document).ready(function() {
             
             $('#table-data').DataTable({
@@ -122,18 +168,6 @@
                         },
                         title: 'Zip Filename / Directory Name',
                     },
-
-                    {
-                        data: 'similarity_measurement',
-                        title: 'Similarity Measurement'  
-                    },
-                    {
-                        data: 'expired',
-                        title: 'Expired',
-                        render: function(data, type, row) {
-                            return data ? data : '-';
-                        },
-                    },
                     {   
                         data: null,
                         render: function(data, type, row) {
@@ -147,6 +181,54 @@
                             }
                         },
                         title: 'Result' 
+                    },
+                    {
+                        data: 'generated_code',
+                        render: function(data, type, row, meta) {
+                            if (data && data.length > 0) {
+                                // Create a unique modal ID for each row
+                                const modalId = `codeModal_${meta.row}`;
+
+                                // Render the button that opens the modal
+                                return `
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#${modalId}">
+                                        View Generated Recommendation Code
+                                    </button>
+
+                                    <!-- Modal Structure -->
+                                    <div class="modal fade" id="${modalId}" tabindex="-1" aria-labelledby="${modalId}Label" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="${modalId}Label">Generated Code for ${row.filename || "Unnamed File"}</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    ${formatGeneratedCode(data)}
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            } else {
+                                return 'No reccomendation code available';
+                            }
+                        },
+                        title: 'Generated code'
+                    },
+                    {
+                        data: 'similarity_measurement',
+                        title: 'Similarity Measurement'  
+                    },
+                    {
+                        data: 'expired',
+                        title: 'Expired',
+                        render: function(data, type, row) {
+                            return data ? data : '-';
+                        },
                     },
                     {
                         data: 'guid',
@@ -185,8 +267,8 @@
                 buttons: [
                     // Add other buttons here if needed
                 ],
-                displayLength: 5,
-                lengthMenu: [5, 10, 25, 50],
+                displayLength: 10,
+                lengthMenu: [10, 25, 50, 75],
                 scrollX: true,
                 width: "100%",
                 responsive: {
@@ -208,7 +290,9 @@
                     },
                     selector: 'td:not(:first-child)'
                 }
-            });$('.head-label').html('<h4>Assessment Similarity Result</h4>');
+            });$('.head-label').html('<h4>Submission Similarity Result</h4>');
+
+
 
             $(document).on("click", ".open-delete-dialog", function() {
                 var guid = $(this).data('guid');
