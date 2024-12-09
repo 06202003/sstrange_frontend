@@ -5,6 +5,16 @@
         <div class="row justify-content-center align-items-center">
             <div class="col-md-5 text-center mb-4 mb-md-0">
                 <img src="{{ asset('images/about.jpg') }}" alt="Logo" class="img-fluid w-75 rounded-3">
+
+                <div class=" mt-2 text-center">
+                    <div>
+                        <h1 class="fs-3">Let's Stay Connected</h1>
+                    </div>
+                    <div class="contact-details">
+                        <p><strong>Email:</strong> <a href="mailto:oscar.karnalim@it.maranatha.edu">oscar.karnalim@it.maranatha.edu</a></p>
+                        <p><strong>Office:</strong> Maranatha Christian University, Bandung</p>
+                    </div>
+                </div>
             </div>
             <div class="col-md-7">
                 <h1 class="mb-4">About SSTRANGE</h1>
@@ -50,20 +60,6 @@
                         <h2>Comparison with CSTRANGE</h2>
                         <p>SSTRANGE is optimized for large-scale submissions with a focus on speed, making it more efficient than its counterpart, Comprehensive STRANGE (CSTRANGE), which provides more detailed similarity distinctions. For a deeper analysis, CSTRANGE may be recommended.</p>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center text-center mt-3">
-            <div class="col-md-12">
-                <div class="jumbotron text-center">
-                    <h1 class="display-4">Let's Stay Connected</h1>
-                </div>
-                <p class="px-5">SSTRANGE is constantly evolving, much like the technology it's built upon. We love feedback, ideas, and collaboration, so don't hesitate to reach out to us with your thoughts. Together, we can create a smarter, more creative future for academic coding.</p>
-                <p>If you'd like to contact us, please feel free to reach out via the following methods:</p>
-                
-                <div class="contact-details">
-                    <p><strong>Email:</strong> <a href="mailto:oscar.karnalim@it.maranatha.edu">oscar.karnalim@it.maranatha.edu</a></p>
-                    <p><strong>Office:</strong> Maranatha Christian University, Bandung</p>
                 </div>
             </div>
         </div>

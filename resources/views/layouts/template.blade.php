@@ -30,6 +30,14 @@
     .btn-primary{
         background-color: #27a4b3 !important;
     }
+    .content-wrapper{
+        max-height: 0px !important;
+    }
+    @media only screen and (max-width: 425px) {
+        .wrapper .content-wrapper{
+            max-height: 1500px !important;
+        }  
+    }
 </style>
 <body class="hold-transition sidebar-mini" style="font-family: Montserrat;">
     <div class="wrapper">
@@ -48,23 +56,9 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown navbarmedquer me-2 me-md-5">
      
-                    <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link  text-dark" href="#"  role="button">
                         {{ $name }}
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li>
-                            <a href="user/profile" class="dropdown-item">
-                                <i class="fas fa-file me-2"></i>
-                                {{ __('My profile') }}
-                            </a>
-                        </li>
-                        <li>
-                            <a id="logout" class="dropdown-item">
-                                <i class="fas fa-sign-out-alt me-2"></i>
-                                {{ __('Log Out') }}
-                            </a>
-                        </li>
-                    </ul>
                 </li>
             </ul>
         </nav>
@@ -81,7 +75,7 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper" >
             @yield('content')
         </div>
         <!-- /.content-wrapper -->

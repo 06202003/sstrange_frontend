@@ -142,6 +142,7 @@
             }
         }
     </style>
+ 
     <!-- Preloader -->
     <div class="preloader">
         <div class="lds-ellipsis">
@@ -153,6 +154,7 @@
     </div>
     <!-- Preloader End -->
     <div class="container">
+ 
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-md-6">
                 <img src="{{ asset('images/logo.png') }}" style="width:100%;height:auto">
@@ -215,7 +217,7 @@
 
                                     <!-- Google login button -->
                                     <div class="text-center mt-3">
-                                        <a href="{{ route('google-auth') }}" class="btn btn-danger btn-block btn-sign-in"><i
+                                        <a href="{{ route('google-auth') }}" class="btn btn-info btn-block btn-sign-in text-white"><i
                                                 class="fab fa-google mr-2"></i>Login with Google</a>
                                     </div>
                                     <!-- /.social-auth-links -->
@@ -237,8 +239,17 @@
                     <!-- /.login-card-body -->
                 </div>
             </div>
+            @if(session('error'))
+            <div class="col-md-12">
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            </div>
+            @endif
         </div>
+
     </div>
+
 @endsection
 
 

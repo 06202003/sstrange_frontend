@@ -1,23 +1,30 @@
-@extends('layouts.app')
+@extends('auth.master')
 
 @section('content')
-    <div class="card-body login-card-body">
-        <p class="login-box-msg">{{ __('Verify Your Email Address') }}</p>
+    <div class="container">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-md-12 text-center">
+                <div class="alert alert-success" role="alert">
+                   {{ __('A fresh verification link has been sent to your email address.') }}
+               </div>
+                <h1 class="fw-bold">{{ __('Check your email for SSTRANGE account verification') }}</h1>
 
-        <div class="alert alert-success" role="alert">
-            {{ __('A fresh verification link has been sent to your email address.') }}
+            </div>
+            <div class="col-md-12 mt-5 text-center">
+                <h5>{{ __('If you did not receive the email') }}</h5>
+                <form class="d-inline mt-5" method="POST" action="{{ route('otp-resend') }}">
+                    @csrf
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit"
+                                class="btn btn-primary btn-block">{{ __('click here to request another') }}</button>
+                        </div>
+                    </div>
+                </form>  
+            </div>
         </div>
 
-        {{ __('Before proceeding, please check your email for a verification link.') }}
-        {{ __('If you did not receive the email') }},
-        <form class="d-inline" method="POST" action="{{ route('otp-resend') }}">
-            @csrf
-            <div class="row">
-                <div class="col-12">
-                    <button type="submit"
-                        class="btn btn-primary btn-block">{{ __('click here to request another') }}</button>
-                </div>
-            </div>
-        </form>
+
+
     </div>
 @endsection

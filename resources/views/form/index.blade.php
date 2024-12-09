@@ -19,13 +19,40 @@
     <h5 class="font-weight-bolder mb-0 text-capitalize">{{ str_replace('-', ' ', Request::path()) }}</h5>
 @endsection
 @section('content')
+    <style>
+        .subtypeinternal{
+            visibility: hidden; 
+            position: absolute;
+            width:97%;
+        }
+        .notsubtypeinternal{
+            visibility: visible; 
+            position: absolute;
+            width:97%;
+        }
+        @media only screen and (max-width: 425px) {
+            #subtypeoption{
+                height: 60px;
+            }
+            .subtypeinternal{
+                visibility: hidden; 
+                position: absolute;
+                width:90%;
+            }
+            .notsubtypeinternal{
+                visibility: visible; 
+                position: absolute;
+                width:90%;
+            }
+        }
+    </style>
     <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg">
         <div class="container-fluid px-3 mt-2 flex-grow-1 container-p-y">
             <div class="row d-flex justify-content-center align-items-center" style="min-height: 10vh">
                 <div class="col-md-12">
                     <div class="card" id="card-block">  
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="mb-0">Add Submission</h4>
+                            <h4 class="mb-0">Generate New Similarity Report</h4>
                         </div>
                         <div class="card-body">
                             <form id="form" enctype="multipart/form-data">
@@ -52,15 +79,15 @@
                                         </select>
                                     </div>
                                     <div class="col-md-8 mt-1" id="subtypeoption">
-                                        <div id="zipoption" style="visibility: hidden; position: absolute;width:97%" >
+                                        <div id="zipoption" class="subtypeinternal" >
                                             <label for="zip_file_path" class="form-label">Zip File <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="This refers to a directory containing student submissions as zip files."></i> :</label>
                                             <input class="form-control w-100" type="file" id="zip_file_path" name="zip_file_path">
                                         </div>
-                                        <div id="diroption" style="visibility: hidden; position: absolute;width:97%" >
+                                        <div id="diroption" class="subtypeinternal" >
                                             <label for="dir_file_path" class="form-label">Directory Path <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="This refers to a directory containing student submissions as directory path."></i> :</label>
                                             <input class="form-control w-100" type="text" id="dir_file_path" name="dir_file_path" placeholder="Please paste the assessment directory here">
                                         </div>
-                                        <div id="expoption" style="visibility: visible; position: absolute;width:97%" >
+                                        <div id="expoption" class="notsubtypeinternal">
                                             <label for="explaination" class="form-label">Submission Path</label>
                                             <input class="form-control w-100" type="text" id="explaination" name="explaination" value="Please select the available Submission Type" readonly>
                                         </div>
@@ -86,7 +113,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4 mt-1" id="minsim">
-                                        <label for="minimum_similarity_threshold" class="form-label">Minimum Similarity Threshold (%) :</label>
+                                        <label for="minimum_similarity_threshold" class="form-label">Minimum Similarity Threshold (%):</label>
                                         <div class="row align-items-end">
                                             <div class="col-md-6">
                                                 <label for="sim_threshold" class="form-label">Sim <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The minimum percentage of similarity for a submission pair to be reported. The value is from 0 to 100 inclusive."></i> </label>
@@ -127,7 +154,7 @@
                                             <option value="Sensitive Super-Bit">Sensitive Super-Bit</option>
                                             <option value="Sensitive Jaccard">Sensitive Jaccard</option>
                                             <option value="Sensitive Cosine">Sensitive Cosine</option>
-                                            <option value="Sensitive RKRGST">Sensitive RKRGST</option> --}}
+                                            <option value="Sensitive RKRGST">Sensitive RKR-GST</option> --}}
                                             <option selected>Open this select menu</option>
         
                                             <!-- Group Biasa -->
@@ -145,7 +172,7 @@
                                                 <option value="Sensitive Super-Bit">Sensitive Super-Bit</option>
                                                 <option value="Sensitive Jaccard">Sensitive Jaccard</option>
                                                 <option value="Sensitive Cosine">Sensitive Cosine</option>
-                                                <option value="Sensitive RKRGST">Sensitive RKRGST</option>
+                                                <option value="Sensitive RKRGST">Sensitive RKR-GST</option>
                                             </optgroup>
                                         </select>
                                     </div>

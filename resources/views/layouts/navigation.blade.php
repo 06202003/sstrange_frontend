@@ -1,12 +1,10 @@
 <!-- Sidebar -->
 <div class="sidebar">
     <!-- Sidebar user panel (optional) -->
-    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="info">
-            <a href="{{ url('user/profile') }}" class="d-block text-decoration-none">{{ $name }}</a>
-        </div>
-    </div>
     <style>
+        .pnavi{
+            font-size: 15px;
+        }
         .nav-link {
             display: flex;
             align-items: center; /* Untuk menyelaraskan ikon dan teks di tengah */
@@ -27,40 +25,40 @@
             <li class="nav-item">
                 <a href="{{ url('/dashboard') }}" class="nav-link text-decoration-none {{ Request::is('dashboard') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-gauge"></i>
-                    <p>{{ __('Dashboard') }}</p>
+                    <p class="pnavi">{{ __('Dashboard') }}</p>
                 </a>
             </li>
             
             <li class="nav-item">
                 <a href="{{ url('/form') }}" class="nav-link text-decoration-none {{ Request::is('form') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-file-contract"></i>
-                    <p>{{ __('Submission Form') }}</p>
+                    <p class="pnavi">{{ __('New Similarity Report') }}</p>
                 </a>
             </li>
             
             <li class="nav-item">
                 <a href="{{ url('/result') }}" class="nav-link text-decoration-none {{ Request::is('result') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-folder"></i>
-                    <p>{{ __('Similarity Result') }}</p>
+                    <p class="pnavi">{{ __('Similarity Reports') }}</p>
                 </a>
             </li>
             
             <li class="nav-item">
                 <a href="{{ url('/codegen') }}" class="nav-link text-decoration-none {{ Request::is('codegen') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-code"></i>
-                    <p>{{ __('Code Generator') }}</p>
+                    <p class="pnavi">{{ __('Code Generator') }}</p>
                 </a>
             </li>
             
             <li class="nav-item">
                 <a href="{{ url('/about') }}" class="nav-link text-decoration-none {{ Request::is('about') ? 'active' : '' }}">
                     <i class="nav-icon far fa-address-card"></i>
-                    <p>{{ __('About us') }}</p>
+                    <p class="pnavi">{{ __('About us') }}</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a id="logoutsecond" class="nav-link text-decoration-none {{ Request::is('logout') ? 'active' : '' }}">
+                <a id="logoutsecond" class="nav-link pnavi text-decoration-none {{ Request::is('logout') ? 'active' : '' }}">
                     <i class="nav-icon  fas fa-sign-out-alt"></i>
                     {{ __('Log Out') }}
                 </a>

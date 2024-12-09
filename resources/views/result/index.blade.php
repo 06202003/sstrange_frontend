@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{{ asset('./assets/dashboard/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5.css') }}">
     <!-- Row Group CSS -->
     <link rel="stylesheet" href="{{ asset('./assets/dashboard/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css" integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 @endsection
 @section('info-page')
     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
@@ -18,6 +20,40 @@
     <h5 class="font-weight-bolder mb-0 text-capitalize">{{ str_replace('-', ' ', Request::path()) }}</h5>
 @endsection
 @section('content')
+    <style>
+        #table-data {
+            font-size: 12px;
+        }
+
+        .align-middle{
+            font-size: 12px;
+        }
+
+        #table-data td {
+            font-size: 12px;
+        }
+
+        .dataTables_paginate {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .dataTables_paginate .paginate_button {
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .dataTables_paginate .paginate_button:hover {
+         
+            color: white;
+        }
+
+        .dataTables_paginate .paginate_button.disabled {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+    </style>
     <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
         <div class="container-fluid px-3 mt-2  flex-grow-1 container-p-y">
             <!-- DataTable with Buttons -->
@@ -84,6 +120,10 @@
     <!-- Row Group JS -->
     <script src="{{ asset('./assets/dashboard/datatables-rowgroup/datatables.rowgroup.js') }}"></script>
     <script src="{{ asset('./assets/dashboard/datatables-rowgroup-bs5/rowgroup.bootstrap5.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js" integrity="sha512-8RnEqURPUc5aqFEN04aQEiPlSAdE0jlFS/9iGgUyNtwFnSKCXhmB6ZTNl7LnDtDWKabJIASzXrzD0K+LYexU9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/clike/clike.min.js"></script>
 @endsection
 @section('custom-javascript')
     <script type="text/javascript">
@@ -95,6 +135,41 @@
         }
 
         //Updated function to format generated code
+        // function formatGeneratedCode(generatedCode) {
+        //     console.log("Raw generatedCode data:", generatedCode);
+
+        //     let codeData;
+
+        //     try {
+        //         // Decode HTML entities if generatedCode is a string
+        //         if (typeof generatedCode === "string") {
+        //             generatedCode = decodeHTMLEntities(generatedCode);
+        //             codeData = JSON.parse(generatedCode);
+        //         } else {
+        //             codeData = generatedCode; // Assume it's already an object or array
+        //         }
+        //     } catch (error) {
+        //         console.error("Error parsing generatedCode:", error);
+        //         return "<p>Error displaying code.</p>";
+        //     }
+
+        //     if (!Array.isArray(codeData)) {
+        //         return "<p>No recommendation code available</p>";
+        //     }
+
+        //     let formattedCode = "";
+        //     codeData.forEach(function(item, index) {
+        //         formattedCode += `
+        //             <div class="mb-3">
+        //                 <strong>Question ${index + 1}:</strong><br>
+        //                 <pre>${item.code}</pre>
+        //             </div>
+        //         `;
+        //     });
+
+        //     return formattedCode;
+        // }
+
         function formatGeneratedCode(generatedCode) {
             console.log("Raw generatedCode data:", generatedCode);
 
@@ -113,23 +188,81 @@
                 return "<p>Error displaying code.</p>";
             }
 
+            // Check if codeData is an array and filter out any duplicates
             if (!Array.isArray(codeData)) {
                 return "<p>No recommendation code available</p>";
             }
 
+            // Optional: Remove duplicates (if applicable) based on code content
+            const uniqueCodeData = codeData.filter((item, index, self) =>
+                index === self.findIndex((t) => t.code === item.code)
+            );
+
             let formattedCode = "";
-            codeData.forEach(function(item, index) {
+            uniqueCodeData.forEach(function(item, index) {
+                const uniqueEditorId = `codeMirrorEditor_${index}`;
+
                 formattedCode += `
                     <div class="mb-3">
                         <strong>Question ${index + 1}:</strong><br>
-                        <pre>${item.code}</pre>
+                        <textarea id="${uniqueEditorId}" class="form-control" rows="10">${item.code}</textarea>
                     </div>
                 `;
+
             });
 
             return formattedCode;
         }
 
+        // Add a global event listener to handle saving data when modal is closed
+        document.addEventListener('click', function(event) {
+            if (event.target.matches('[data-save-trigger]')) {
+                // Get the closest modal to the clicked element
+                const modal = event.target.closest('.modal');
+                const textareas = modal.querySelectorAll('textarea');
+                const updatedData = Array.from(textareas).map(textarea => ({
+                    code: textarea.value
+                }));
+
+                // JSON.stringify the updated data to be sent in the AJAX request
+                const generatedCodeStoring = JSON.stringify(updatedData);
+
+                // Retrieve the guid from the associated button that triggered the modal
+                const triggerButton = document.querySelector(`[data-bs-target="#${modal.id}"]`);
+                const guid = triggerButton ? triggerButton.getAttribute('data-guid') : null;
+
+
+                // Proceed with your AJAX request if guid is found
+                if (guid) {
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ env('URL_API') }}/api/v1/updateform",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            guid: guid,
+                            generated_code: generatedCodeStoring
+                        }),
+                        beforeSend: function(request) {
+                            request.setRequestHeader("Authorization", "Bearer {{ $token }}");
+                        },
+                        success: function(response) {
+                            toastr.options.closeButton = true;
+                            toastr.options.timeOut = 1000;
+                            toastr.options.onHidden = function() {
+                                var url = "{{ route('result') }}";
+                                window.location.href = url;
+                            };
+                            toastr.success("Data updated successfully", "Success");
+                        },
+                        error: function(xhr) {
+                            toastr.error("Error updating data", "Error");
+                        }
+                    });
+                } else {
+                    console.error('No GUID found for this modal.');
+                }
+            }
+        });
 
 
         $(document).ready(function() {
@@ -151,22 +284,29 @@
                         orderable: false,
                         searchable: false,
                         title: 'No',
-                        className: 'text-center'
-                    }, 
+                        className: 'text-center',
+                        responsivePriority: 1, // Prioritaskan kolom ini di tampilan desktop
+                        render: function(data, type, row) {
+                            if (type === 'display') {
+                                return data;  // Menampilkan nomor urut di desktop
+                            } else {
+                                // Menampilkan nama tugas yang bisa diklik pada tampilan mobile
+                                return `<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#codeModal_${row.guid}" class="text-decoration-none text-black">${row.filename}</a>`;
+                            }
+                        }
+                    },
                     {
                         data: null,
                         render: function(data, type, row) {
                             if (row.filename) {
-                                // Define the download URL based on the row's filename
-                                const downloadUrl = `{{ env('URL_API') }}/api/v1/download/` + row.filename;
-                                return `<a href="#" class="download-link text-decoration-none text-black" data-filename="${row.filename}" data-url="${downloadUrl}">${row.filename}</a>`;
+                                return `<p class="text-decoration-none text-black" >${row.filename}</p>`;
                             } else if (row.dir_file_path) {
                                 return row.dir_file_path;
                             } else {
                                 return 'No file available';
                             }
                         },
-                        title: 'Zip Filename / Directory Name',
+                        title: 'Assessment Name',
                     },
                     {   
                         data: null,
@@ -177,10 +317,10 @@
                             // Check if result path contains 'storage'
                             if (result.includes('storage')) {
                                 // Assume it's under storage and construct the URL
-                                return '<a class="btn btn-primary w-100" href="' + apiBaseUrl + '/' + result + '" target="_blank">' + row.filename + ' result' + '</a>';
+                                return '<a class="btn btn-primary w-100" style="font-size:12px;" href="' + apiBaseUrl + '/' + result + '" target="_blank">'  + ' Observe' + '</a>';
                             }
                         },
-                        title: 'Result' 
+                        title: 'Reports' 
                     },
                     {
                         data: 'generated_code',
@@ -188,11 +328,11 @@
                             if (data && data.length > 0) {
                                 // Create a unique modal ID for each row
                                 const modalId = `codeModal_${meta.row}`;
-
+                                const guid = row.guid;
                                 // Render the button that opens the modal
                                 return `
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#${modalId}">
-                                        View Generated Recommendation Code
+                                    <button type="button" class="btn btn-primary" style="font-size:12px;" data-bs-toggle="modal" data-bs-target="#${modalId}" data-guid="${guid}">
+                                        View Generated Code
                                     </button>
 
                                     <!-- Modal Structure -->
@@ -207,7 +347,7 @@
                                                     ${formatGeneratedCode(data)}
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-save-trigger="true">Close</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -221,7 +361,24 @@
                     },
                     {
                         data: 'similarity_measurement',
-                        title: 'Similarity Measurement'  
+                        title: 'Similarity Measurement',
+                        render: function(data, type, row) {
+                            const similarityMapping = {
+                                'minhash': 'MinHash',
+                                'super-bit': 'Super-Bit',
+                                'jaccard': 'Jaccard',
+                                'cosine': 'Cosine',
+                                'rkrgst': 'RKR-GST',
+                                'sensitive minhash': 'Sensitive MinHash',
+                                'sensitive super-bit': 'Sensitive Super-Bit',
+                                'sensitive jaccard': 'Sensitive Jaccard',
+                                'sensitive cosine': 'Sensitive Cosine',
+                                'sensitive rkrgst': 'Sensitive RKR-GST'
+                            };
+                            
+                            // Return formatted value or fallback to raw data
+                            return similarityMapping[data] || data || '-';
+                        }
                     },
                     {
                         data: 'expired',
@@ -267,8 +424,8 @@
                 buttons: [
                     // Add other buttons here if needed
                 ],
-                displayLength: 10,
-                lengthMenu: [10, 25, 50, 75],
+                displayLength: 5,
+                lengthMenu: [5, 10, 15, 25],
                 scrollX: true,
                 width: "100%",
                 responsive: {
@@ -281,16 +438,14 @@
                         type: "column",
                         renderer: function(e, t, a) {
                             a = $.map(a, function(e, t) {
-                                return "" !== e.title ? '<tr data-dt-row="' + e.rowIndex +
-                                    '" data-dt-column="' + e.columnIndex + '"><td >' + e.title +
-                                    ":</td> <td >" + e.data + "</td></tr>" : "";
+                                return "" !== e.title ? `<tr data-dt-row="${e.rowIndex}" data-dt-column="${e.columnIndex}"><td>${e.title}:</td><td>${e.data}</td></tr>` : "";
                             }).join("");
                             return !!a && $('<table class="table"/><tbody />').append(a);
                         }
                     },
                     selector: 'td:not(:first-child)'
                 }
-            });$('.head-label').html('<h4>Submission Similarity Result</h4>');
+            });$('.head-label').html('<h4>Similarity Reports</h4>');
 
 
 

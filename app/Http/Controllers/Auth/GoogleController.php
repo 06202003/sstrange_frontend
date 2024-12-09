@@ -72,9 +72,13 @@ class GoogleController extends Controller
                     dd("error");
                 }
             } else {
-                // Tampilkan pesan error ke konsol jika tidak berhasil
-                $errorData = $response->json(); // Mendapatkan data error dalam bentuk array atau objek JSON
-                $errorMessage = isset($errorData['message']) ? $errorData['message'] : 'Unknown error';
+                // Cek jika ada error 400 (Invalid Credentials)
+                if ($response->status() == 400 && $response->json()['message'] == 'Invalid Credentials') {
+                    // Mengarahkan kembali ke halaman login dengan pesan error
+                    return redirect()->route('login')->with('error', 'Akun tidak terdaftar. Silakan gunakan akun yang sudah terdaftar.');
+                }
+    
+                // Tampilkan pesan error jika ada jenis error lain
                 dd($response);
             }
         } catch (Exception $e) {
@@ -137,6 +141,13 @@ class GoogleController extends Controller
             } else {
                 $errorData = $response->json();
                 $errorMessage = isset($errorData['message']) ? $errorData['message'] : 'Unknown error';
+    
+                // Menangani error jika email tidak sesuai
+                if ($errorMessage == 'Email Google are Different') {
+                    return redirect()->route('login')->with('error', 'Email Google Anda tidak cocok dengan akun yang terdaftar. Silakan coba dengan akun yang terdaftar di sistem kami.');
+                }
+    
+                // Untuk error lain, tampilkan pesan kesalahan
                 dd($response);
             }
         } catch (Exception $e) {

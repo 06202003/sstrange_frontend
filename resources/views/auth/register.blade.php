@@ -1,6 +1,7 @@
 @extends('auth.master')
 
 @section('content')
+
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-md-6">
@@ -108,15 +109,55 @@
 @section('library')
     <script type="text/javascript">
         $(document).ready(function() {
-
             $("#register").click(function(e) {
                 e.preventDefault();
 
+                // Ambil data input
                 var name = $("#name").val();
                 var email = $("#email").val();
                 var password = $("#password").val();
                 var phone_number = $("#phone_number").val();
 
+                // Regex untuk mengecek domain dan format email
+                var validDomainRegex = /@(maranatha\.ac\.id|it\.maranatha\.edu)$/; // Valid domain check
+                var studentDomainRegex = /@student\.it\.maranatha\.edu$/; // Cek untuk student.it.maranatha.edu
+                var validUsernameRegex = /^[^\d].*$/;  // Username tidak boleh dimulai dengan angka
+
+                // Cek apakah email termasuk domain student.it.maranatha.edu (blokir student email)
+                if (studentDomainRegex.test(email)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Access Restricted',
+                        text: 'You are a student, only lecturers can access this system.',
+                    });
+                    return; // Stop form submission
+                }
+
+
+                // Cek apakah email memiliki domain yang valid (maranatha.ac.id atau it.maranatha.edu)
+                if (!validDomainRegex.test(email)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid Email Domain',
+                        text: 'Email must belong to maranatha.ac.id or it.maranatha.edu.',
+                    });
+                    return; // Stop form submission
+                }
+
+        
+                // Cek apakah username email (sebelum @) dimulai dengan angka
+                var username = email.split('@')[0]; // Ambil bagian username (sebelum @)
+                if (/^\d/.test(username) && /@maranatha\.ac\.id$/.test(email)) {
+                    // Cek jika username dimulai dengan angka dan domain adalah maranatha.ac.id
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Access Restricted',
+                        text: 'You are a student, only lecturers can access this system.',
+                    });
+                    return; // Stop form submission
+                }
+
+                // Jika email valid, lanjutkan ke pengiriman data
                 $.ajax({
                     type: "POST",
                     url: "{{ env('URL_API') }}/api/v1/auth/register",
@@ -127,30 +168,27 @@
                         password: password,
                     },
                     beforeSend: function() {
+                        // Anda bisa menambahkan animasi loading di sini
                         // $('#loading-sign-in').removeClass("d-none");
                         // $('#btn-sign-in').addClass("d-none");
                     },
                     success: function(resultLogin) {
+                        // Jika registrasi berhasil, lakukan langkah selanjutnya
                         $.ajax({
                             type: "POST",
                             url: "{{ route('session.register') }}",
                             data: {
                                 _token: "{{ csrf_token() }}",
-
-                                guid: resultLogin['data'][
-                                    'guid'
-                                ],
+                                guid: resultLogin['data']['guid'],
                             },
                             success: function(result) {
-
-                                window.location =
-                                    "/choose-verify";
-
+                                // Redirect ke halaman verifikasi setelah pendaftaran sukses
+                                window.location = "/choose-verify";
                             }
                         });
-
                     },
                     error: function(xhr, status, error) {
+                        // Menampilkan error jika registrasi gagal
                         var response = JSON.parse(xhr.responseText);
                         Swal.fire({
                             icon: 'error',
@@ -159,8 +197,12 @@
                         });
                     }
                 });
-
             });
         });
+
+
     </script>
+    <script src="
+    https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js
+    "></script>
 @endsection

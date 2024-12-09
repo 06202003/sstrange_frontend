@@ -25,7 +25,7 @@
                         <h4 class="mb-0">Edit Profile</h4>
                     </div>
                     <div class="card-body">
-                        <form id="form">
+                        <form id="formupdateuser"  enctype="multipart/form-data">
                             <div class="">
                                 <input type="text" class="form-control" id="guid" placeholder="Input Id" required
                                     value="{{ $data['data']['guid'] }}" hidden />
@@ -75,39 +75,61 @@
 @endsection
 @section('custom-javascript')
     <script type="text/javascript">
-        $(document).ready(function() {
-            $('#form').on('submit', function(e) {
-                e.preventDefault();
+    $(document).ready(function() {
+        $('#formupdateuser').on('submit', function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
 
-                var id = $('#id').val();
-                var name = $('#name').val();
-                var username = $('#username').val();
-                var email = $('#email').val();
-                var role = $('#role').val();
+            console.log(formData);
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ', ' + pair[1]);
+            }
 
-                $.ajax({
-                    type: "PUT",
-                    url: "{{ env('URL_API') }}/api/v1/user",
-                    data: {
-                        "id": id,
-                        "name": name,
-                        "username": username,
-                        "email": email,
-                        "phone_number": phoneNumber,
-                    },
-                    beforeSend: function(request) {
-                        request.setRequestHeader("Authorization",
-                            "Bearer {{ $token }}");
+            $.ajax({
+                type: "PUT",
+                url: "{{ env('URL_API') }}/api/v1/updateuser", 
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function(request) {
+                    request.setRequestHeader("Authorization", "Bearer {{ $token }}");
+
+                        $("#card-block").block({
+                            message: '<div class="spinner-border text-primary" role="status"></div>',
+                            timeout: 1e3,
+                            css: {
+                                backgroundColor: "transparent",
+                                border: "0"
+                            },
+                            overlayCSS: {
+                                backgroundColor: "#fff",
+                                opacity: .8
+                            }
+                        });
                     },
                     success: function(result) {
-                        window.location.href = "{{ route('user-profile') }}";
+                        $.unblockUI();
+                        toastr.options.closeButton = true;
+                        toastr.options.timeOut = 1000;
+                        toastr.options.onHidden = function() {
+                            window.location.href = "{{ route('user-profile') }}";
+                        }
+                        toastr.success(
+                            "Success update data", "Success"
+                        );
                     },
                     error: function(xhr, status, error) {
-                        var errorMessage = xhr.status + ': ' + xhr.statusText;
-                        alert('Terjadi kesalahan: ' + errorMessage);
+                        $.unblockUI();
+                        var jsonResponse = JSON.parse(xhr.responseText);
+
+                        toastr.options.closeButton = true;
+                        toastr.error(
+                            jsonResponse['message'],
+                            "Error",
+                        );
                     }
-                });
             });
         });
+    });
     </script>
 @endsection
