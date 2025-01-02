@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-7">
                 <h1 class="mb-4">About SSTRANGE</h1>
-                <p class="lead"><strong>SSTRANGE</strong> is dedicated to enhancing assessment processes in higher education through innovative technology. Our tool leverages advanced techniques like MinHash and Super-Bit to efficiently detect similarities among academic submissions, even at scale.</p>
+                <p class="lead"><strong>SSTRANGE</strong> is a web-based platform dedicated to enhancing academic integrity by providing efficient and user-friendly tools for detecting programming plagiarism. Our non-commercial system prioritizes privacy, accessibility, and innovation, offering advanced similarity measurements to support educators in fostering honest and high-quality learning environments.</p>
 
                 <!-- Buttons for Show/Hide Sections (Flex) -->
                 <div class="d-flex gap-2 mt-3">

@@ -5,6 +5,13 @@
         *{
             overflow: hidden;
         }
+
+        .blurry{
+            background: rgba(255, 255, 255, 0.221); 
+            backdrop-filter: blur(2px); 
+            border-radius: 10px; 
+        }
+
         .animated-text {
             display: none; /* Mulai dengan teks disembunyikan */
             font-weight: bold;
@@ -31,7 +38,7 @@
             width: 100%; /* Agar teks mengisi lebar div */
             transition: transform 0.5s ease; /* Animasi untuk naik */
             opacity: 0; /* Mulai dengan transparan */
-            font-size:1.25em
+            font-size:1em
         }
 
         .text-item.active {
@@ -64,26 +71,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div>
-                        <h1 class="animated-text">Boost Creativity, Eliminate Copying</h1>
-                        <h1 class="animated-text">Redefining Code Integrity</h1>
-                        <h1 class="animated-text">Innovate, Don't Imitate</h1>
-                        <h1 class="animated-text">Say Goodbye to Code Copying Forever</h1>
-                    </div>
-                    <div class="d-flex w-100">
-                        <p style="font-size:1.25em" class="me-2">A Smarter Way to</p>
-                        <div>
-                            <div class="text-item active">Empowering Future Coders</div>
-                            <div class="text-item">Integrity in Every Line</div>
-                            <div class="text-item">Transforming Ideas into Reality</div>
-                            <div class="text-item">Code Smart, Code Fair</div>
-                            <div class="text-item">Enhancing the Coding Ecosystem</div>
+                <div class="col-md-6 blurry">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="animated-text">Boost Creativity, Eliminate Copying</h1>
+                            <h1 class="animated-text">Redefining Code Integrity</h1>
+                            <h1 class="animated-text">Innovate, Don't Imitate</h1>
+                            <h1 class="animated-text">Say Goodbye to Code Copying Forever</h1>
+                        </div>
+                        <div class="col-md-12">
+                            <p>Ready to analyze submissions for similarity? Click the button below to start.</p>
+                            <a href="{{ route('form') }}" class="btn btn-primary w-50 mb-3">Start SSTRANGE</a>
+                            <p>Curious for more details? <a href="{{ route('about') }}">Click Here!</a></p>
                         </div>
                     </div>
-                    <p>Ready to analyze submissions for similarity? Click the button below to start.</p>
-                    <a href="{{ route('form') }}" class="btn btn-primary w-50 mb-3">Start SSTRANGE</a>
-                    <p>Curious for more details? <a href="{{ route('about') }}">Click Here!</a></p>
+
                 </div>      
             </div>
         </div>

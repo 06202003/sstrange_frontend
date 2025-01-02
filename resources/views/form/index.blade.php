@@ -128,7 +128,7 @@
                                 </div>
                                 <div class="row  mb-3">
                                     <div class="col-md-4 mt-1" id="maxrep">
-                                        <label for="maximum_reported_submission_pairs" class="form-label">Maximum Reported Submission Pairs <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The maximum number of reported submission pairs with high similarity. Larger value will display more submission pairs for manual check but will make the execution runs slower."></i> :</label>
+                                        <label for="maximum_reported_submission_pairs" class="form-label" style="font-size: 0.92em">Maximum Reported Submission Pairs <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The maximum number of reported submission pairs with high similarity. Larger value will display more submission pairs for manual check but will make the execution runs slower."></i> :</label>
                                         <input type="number" id="maximum_reported_submission_pairs" name="maximum_reported_submission_pairs" class="form-control" min="0" value="10" required>
                                     </div>
                                     <div class="col-md-4 mt-1" id="minmatch">

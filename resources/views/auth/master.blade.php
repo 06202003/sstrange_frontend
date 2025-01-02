@@ -5,12 +5,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    {{-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> --}}
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
+  <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('css/fontawesome.min.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('images/icon.png') }}">
@@ -24,9 +26,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.min.css
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-        crossorigin="anonymous"></script>
+  
 
     @yield('addCss')
 </head>
@@ -55,8 +55,13 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.min.css
 
         @yield('content')
     </div>
+    <script src="
+    https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js
+    "></script>
     <!-- /.login-box -->
+    @stack('scripts')
     @yield('library')
+   
 </body>
 
 </html>

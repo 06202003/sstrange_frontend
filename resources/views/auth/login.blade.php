@@ -205,7 +205,7 @@
                                 <!-- /.col -->
                                 <div class="col-12">
                                     <button type="submit" id="login"
-                                        class="btn btn-primary btn-block btn-sign-in">{{ __('Login') }}</button>
+                                        class="btn btn-primary btn-block btn-sign-in">{{ __('Sign in') }}</button>
                                         <div class="loading-cover d-none text-center" id="loading-sign-in">
                                             <div class="lds-ripple">
                                                 <div></div>
@@ -217,8 +217,8 @@
 
                                     <!-- Google login button -->
                                     <div class="text-center mt-3">
-                                        <a href="{{ route('google-auth') }}" class="btn btn-info btn-block btn-sign-in text-white"><i
-                                                class="fab fa-google mr-2"></i>Login with Google</a>
+                                        <a href="{{ route('google-auth') }}" class="btn btn-danger btn-block btn-sign-in text-white"><i
+                                                class="fab fa-google mr-2"></i>Sign in with Google</a>
                                     </div>
                                     <!-- /.social-auth-links -->
                         
@@ -239,13 +239,24 @@
                     <!-- /.login-card-body -->
                 </div>
             </div>
-            @if(session('error'))
+            {{-- @if(session('error'))
             <div class="col-md-12">
                 <div class="alert alert-danger">
                     {{ session('error') }}
                 </div>
             </div>
-            @endif
+            @endif --}}
+            @if(session('error'))
+            @push('scripts')
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: @json(session('error')),
+                });
+            </script>
+            @endpush
+        @endif
         </div>
 
     </div>
@@ -256,6 +267,7 @@
 @section('library')
     <script type="text/javascript">
         $(document).ready(function() {
+            
             $(window).on('load', function() {
                 $('.preloader').fadeOut('slow');
             });
@@ -342,9 +354,15 @@
                         $('#loading-sign-in').addClass("d-none");
                         $('.btn-sign-in').removeClass("d-none");
 
-                        var jsonResponse = JSON.parse(xhr.responseText);
-                        $('#error-message-login').text(jsonResponse['message']);
-                        $('#error-message-login').removeClass("d-none");
+                        // var jsonResponse = JSON.parse(xhr.responseText);
+                        // $('#error-message-login').text(jsonResponse['message']);
+                        // $('#error-message-login').removeClass("d-none");
+                        var response = JSON.parse(xhr.responseText);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.message,
+                        });
                     }
                 });
 

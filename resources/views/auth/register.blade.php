@@ -77,9 +77,11 @@
                         </div>
 
                         <div class="input-group mb-3">
-                            <input type="password" name="password_confirmation"
-                                class="form-control @error('password_confirmation') is-invalid @enderror"
-                                placeholder="{{ __('Confirm Password') }}" required autocomplete="new-password">
+                            <input type="password" name="password_confirmation" id="password_confirmation"
+                            class="form-control @error('password_confirmation') is-invalid @enderror"
+                            placeholder="{{ __('Confirm Password') }}" required autocomplete="new-password">
+                        
+                            
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>
@@ -116,7 +118,9 @@
                 var name = $("#name").val();
                 var email = $("#email").val();
                 var password = $("#password").val();
+                var password_confirmation= $("#password_confirmation").val();
                 var phone_number = $("#phone_number").val();
+                console.log(password_confirmation)
 
                 // Regex untuk mengecek domain dan format email
                 var validDomainRegex = /@(maranatha\.ac\.id|it\.maranatha\.edu)$/; // Valid domain check
@@ -166,6 +170,7 @@
                         email: email,
                         phone_number: phone_number,
                         password: password,
+                        password_confirmation: password_confirmation,
                     },
                     beforeSend: function() {
                         // Anda bisa menambahkan animasi loading di sini

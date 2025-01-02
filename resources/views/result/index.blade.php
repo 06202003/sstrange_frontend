@@ -127,6 +127,7 @@
 @endsection
 @section('custom-javascript')
     <script type="text/javascript">
+        console.log('{{ $token }}')
         // Helper function to decode HTML entities
         function decodeHTMLEntities(text) {
             const textarea = document.createElement("textarea");
@@ -214,6 +215,7 @@
             return formattedCode;
         }
 
+
         // Add a global event listener to handle saving data when modal is closed
         document.addEventListener('click', function(event) {
             if (event.target.matches('[data-save-trigger]')) {
@@ -265,8 +267,8 @@
         });
 
 
+
         $(document).ready(function() {
-            
             $('#table-data').DataTable({
                 "destroy": true,
                 "processing": true,
@@ -315,9 +317,12 @@
                             var apiBaseUrl = "{{ env('URL_API') }}";
                             
                             // Check if result path contains 'storage'
-                            if (result.includes('storage')) {
-                                // Assume it's under storage and construct the URL
-                                return '<a class="btn btn-primary w-100" style="font-size:12px;" href="' + apiBaseUrl + '/' + result + '" target="_blank">'  + ' Observe' + '</a>';
+                            if (result && typeof result === 'string' && result.includes('storage')) {
+                                // Jika valid, bangun URL dan return elemen HTML
+                                return '<a class="btn btn-primary w-100" style="font-size:12px;" href="' + apiBaseUrl + '/' + result + '" target="_blank">' + 'Observe' + '</a>';
+                            } else {
+                                // Return nilai default jika result tidak valid
+                                return '<span class="text-muted">No Reports Available</span>';
                             }
                         },
                         title: 'Reports' 
@@ -331,7 +336,7 @@
                                 const guid = row.guid;
                                 // Render the button that opens the modal
                                 return `
-                                    <button type="button" class="btn btn-primary" style="font-size:12px;" data-bs-toggle="modal" data-bs-target="#${modalId}" data-guid="${guid}">
+                                    <button type="button" class="btn btn-primary w-100" style="font-size:12px;" data-bs-toggle="modal" data-bs-target="#${modalId}" data-guid="${guid}">
                                         View Generated Code
                                     </button>
 
@@ -354,7 +359,7 @@
                                     </div>
                                 `;
                             } else {
-                                return 'No reccomendation code available';
+                                return 'No recomendation code available';
                             }
                         },
                         title: 'Generated code'
@@ -387,19 +392,40 @@
                             return data ? data : '-';
                         },
                     },
+                    // {
+                    //     data: 'guid',
+                    //     title: "Actions",
+                    //     render: function(data, type, row, meta) {
+                    //         return '<button data-bs-toggle="modal" data-bs-target="#modalDelete" data-guid="' +
+                    //             row.guid +
+                    //             '" class="btn btn-sm btn-icon item-edit open-delete-dialog"><i class="fa-solid fa-trash"></i></button>';
+                    //     },
+                    //     orderable: false,
+                    //     searchable: false,
+                    //     title: 'Action',
+                    //     className: 'text-center'
+                    // },
                     {
                         data: 'guid',
                         title: "Actions",
                         render: function(data, type, row, meta) {
-                            return '<button data-bs-toggle="modal" data-bs-target="#modalDelete" data-guid="' +
-                                row.guid +
-                                '" class="btn btn-sm btn-icon item-edit open-delete-dialog"><i class="fa-solid fa-trash"></i></button>';
+                            var result = row.result;
+                            var directoryPath = result && typeof result === 'string' ? result.substring(0, result.lastIndexOf('/')) : '';
+
+                            return `
+                                <button data-bs-toggle="modal" data-bs-target="#modalDelete" data-guid="${row.guid}" 
+                                    class="btn btn-sm btn-icon item-edit open-delete-dialog" title="Delete">
+                                    <i class="fa-solid fa-trash fa-xl" style="color:red;"></i>
+                                </button>
+                                <button data-guid="${row.guid}" class="btn btn-sm btn-icon btn-download" title="Download ZIP">
+                                    <i class="fa-solid fa-download fa-xl"></i>
+                                </button>
+                            `;
                         },
                         orderable: false,
                         searchable: false,
-                        title: 'Action',
                         className: 'text-center'
-                    },
+                    }
                 ],
                 "language": {
                     "emptyTable": "No data available in table",
@@ -446,6 +472,38 @@
                     selector: 'td:not(:first-child)'
                 }
             });$('.head-label').html('<h4>Similarity Reports</h4>');
+
+            $(document).on('click', '.btn-download', function() {
+                var guid = $(this).data('guid');
+                
+                // Kirim request ke backend untuk mengunduh file ZIP berdasarkan GUID
+                $.ajax({
+                    url: '{{ env('URL_API') }}/api/v1/form/download-directory', // Ganti dengan endpoint API Anda
+                    type: 'POST',
+                    data: { guid: guid },  // Kirim GUID ke backend
+                    beforeSend: function(request) {
+                        request.setRequestHeader("Authorization", "Bearer {{ $token }}");
+                    },
+                    success: function(response) {
+                        // Jika backend mengembalikan URL file ZIP, lakukan download
+                        var zipFileUrl = response.zipFileUrl;
+                        if (zipFileUrl) {
+                            // Buat elemen anchor untuk melakukan download otomatis
+                            var a = document.createElement('a');
+                            a.href = zipFileUrl;
+                            a.download = ''; // Nama file dapat diatur sesuai keinginan
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                        } else {
+                            alert("File tidak ditemukan atau gagal untuk diunduh.");
+                        }
+                    },
+                    error: function() {
+                        alert("Terjadi kesalahan saat mencoba mengunduh file.");
+                    }
+                });
+            });
 
 
 

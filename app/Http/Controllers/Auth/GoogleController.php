@@ -25,18 +25,22 @@ class GoogleController extends Controller
     public function redirectToGoogle()
     {
         config(['services.google.redirect' => 'http://127.0.0.1:8000/auth/google/call-back']);
+        // config(['services.google.redirect' => 'https://c70d-2001-448a-3032-e388-b507-f6ef-16-2004.ngrok-free.app/auth/google/call-back']);
+
         return Socialite::driver('google')->redirect();
     }
 
     public function syncToGoogle()
     {
         config(['services.google.redirect' => 'http://127.0.0.1:8000/auth/google/call-back/sync']);
+        // config(['services.google.redirect' => 'https://c70d-2001-448a-3032-e388-b507-f6ef-16-2004.ngrok-free.app/auth/google/call-back/sync']);
         return Socialite::driver('google')->redirect();
     }
 
     public function verifyToGoogle()
     {
         config(['services.google.redirect' => 'http://127.0.0.1:8000/auth/google/call-back/verify']);
+         // config(['services.google.redirect' => 'https://c70d-2001-448a-3032-e388-b507-f6ef-16-2004.ngrok-free.app/auth/google/call-back/verify']);
         return Socialite::driver('google')->redirect();
     }
 
@@ -46,6 +50,7 @@ class GoogleController extends Controller
     {
         try {
             config(['services.google.redirect' => 'http://127.0.0.1:8000/auth/google/call-back']);
+            // config(['services.google.redirect' => 'https://c70d-2001-448a-3032-e388-b507-f6ef-16-2004.ngrok-free.app/auth/google/call-back']);
             $user = Socialite::driver('google')->user();
             // dd($user->id);
             $response = Http::withHeaders([
@@ -75,7 +80,7 @@ class GoogleController extends Controller
                 // Cek jika ada error 400 (Invalid Credentials)
                 if ($response->status() == 400 && $response->json()['message'] == 'Invalid Credentials') {
                     // Mengarahkan kembali ke halaman login dengan pesan error
-                    return redirect()->route('login')->with('error', 'Akun tidak terdaftar. Silakan gunakan akun yang sudah terdaftar.');
+                    return redirect()->route('login')->with('error', 'Account is not registered. Please use a registered account.');
                 }
     
                 // Tampilkan pesan error jika ada jenis error lain
@@ -90,6 +95,7 @@ class GoogleController extends Controller
     {
         try {
             config(['services.google.redirect' => 'http://127.0.0.1:8000/auth/google/call-back/sync']);
+            // config(['services.google.redirect' => 'https://c70d-2001-448a-3032-e388-b507-f6ef-16-2004.ngrok-free.app/auth/google/call-back/sync']);
 
             $user = Socialite::driver('google')->user();
             $session = new Session();
@@ -122,6 +128,7 @@ class GoogleController extends Controller
     {
         try {
             config(['services.google.redirect' => 'http://127.0.0.1:8000/auth/google/call-back/verify']);
+            // config(['services.google.redirect' => 'https://c70d-2001-448a-3032-e388-b507-f6ef-16-2004.ngrok-free.app/auth/google/call-back/verify']);
 
             $user = Socialite::driver('google')->user();
             $session = new Session();
@@ -144,7 +151,12 @@ class GoogleController extends Controller
     
                 // Menangani error jika email tidak sesuai
                 if ($errorMessage == 'Email Google are Different') {
-                    return redirect()->route('login')->with('error', 'Email Google Anda tidak cocok dengan akun yang terdaftar. Silakan coba dengan akun yang terdaftar di sistem kami.');
+                    $response = Http::withHeaders([
+                        'Content-Type' => "application/json"
+                    ])->delete(env("URL_API", "http://example.com") . '/api/v1/auth/delete-user?guid=' . $guid);
+                    
+                    
+                    return redirect()->route('login')->with('error', 'Your Google account does not match the registered account. Please try with the account registered in our system.');
                 }
     
                 // Untuk error lain, tampilkan pesan kesalahan

@@ -53,144 +53,154 @@
             #addpdf{
                 height: 25vh;
             }
+            html, body {
+                height: 100%;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+            }
         }
     </style>
     <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
-    <div class="container-fluid px-3  flex-grow-1 container-p-y">
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-6">
-                <div class="col-md-12">
-                    <!-- Upload PDF Form -->
-                    <div class="card " id="addpdf">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="mb-0">Add Questions (PDF)</h4>
-                        </div>
-                        <div class="card-body">
-                            <form id="upload-form" enctype="multipart/form-data">
-                                <div class="row ">
-                                    <div class="col-md-12 " >
-                                        <input class="form-control  w-100" type="file" id="pdf" name="pdf" accept="application/pdf">
-                                        <button type="submit" class="btn btn-primary fontsizeall w-100 mt-2">Submit</button>
-                                    </div>
+        <div class="container-fluid">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- Upload PDF Form -->
+                            <div class="card " id="addpdf">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h4 class="mb-0">Add Questions (PDF)</h4>
                                 </div>
-                               
-                            </form>
+                                <div class="card-body">
+                                    <form id="upload-form" enctype="multipart/form-data">
+                                        <div class="row ">
+                                            <div class="col-md-12 " >
+                                                <input class="form-control  w-100" type="file" id="pdf" name="pdf" accept="application/pdf">
+                                                <button type="submit" class="btn btn-primary fontsizeall w-100 mt-2">Submit</button>
+                                            </div>
+                                        </div>
+                                    
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-12 ">
-                    <!-- Display Parsed Text -->
-                    <div class="card" id="generatecode" style="height: auto; min-height:60vh;">
-                        <div class="card-header d-flex align-items-center">
-                            <h4 class="mb-0 ">Generate Code from Questions</h4>
-                            <button type="button" id="settingprompt" class="btn btn-secondary ms-auto" data-bs-toggle="modal" data-bs-target="#settingsModal">
-                                <i class="fa-solid fa-gears"></i>
-                            </button>
-                            <!-- Settings Modal -->
-                            <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
-                                <div class=" modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="settingsModalLabel">AI Generated Code - Manual Prompt</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body ">
-                                            <form id="manual-prompt-form">
-                                                <div class="mb-3">
-                                                    <label for="manualPrompt" class="form-label">Enter Manual Prompt:</label>
-                                                    <textarea id="manualPrompt" class="form-control" rows="5" placeholder="Type your manual prompt here..."></textarea>
+                        <div class="col-md-12 ">
+                            <!-- Display Parsed Text -->
+                            <div class="card" id="generatecode" style="height: auto; min-height:60vh;">
+                                <div class="card-header d-flex align-items-center">
+                                    <h4 class="mb-0 ">Generate Code from Questions</h4>
+                                    <button type="button" id="settingprompt" class="btn btn-secondary ms-auto" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                                        <i class="fa-solid fa-gears"></i>
+                                    </button>
+                                    <!-- Settings Modal -->
+                                    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+                                        <div class=" modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="settingsModalLabel">Manual Prompt for Generative AI</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
+                                                <div class="modal-body ">
+                                                    <form id="manual-prompt-form">
+                                                        <div class="mb-3">
+                                                            <label for="manualPrompt" class="form-label">Enter Manual Prompt:</label>
+                                                            <textarea id="manualPrompt" class="form-control fontsizeall" rows="5" placeholder="Type your manual prompt here..."></textarea>
+                                                        </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Save Prompt</button>
+                                                </div>
+                                            </form>
+                                            </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save Prompt</button>
+                                    </div>
+    
+                                </div>
+                                <div class="card-body">
+                                    <form id="parsed-form">
+                                        <div class="row mt-2">
+                                            <div class="col-md-12 mt-1">
+                                                <textarea id="pdf-text" class="form-control fontsizeall" rows="7" placeholder="Question 1: ...&#10;&#10;Question 2: ...&#10;&#10;Question 3: ..."></textarea>
+                                            </div>
+                                        </div>
+                                        <!-- Language Selection Dropdown -->
+                                        <div class="row mt-3">
+                                            <div class="col-md-12 mt-1">
+                                                <label for="language" class="fontsizeall">Batasan Materi:</label>
+                                                <input class="form-control w-100 fontsizeall" type="text" id="batasan_materi" name="batasan_materi" placeholder="Example: Nested Loop with for Loop">
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6 mt-1">
+                                                <label for="language" class="fontsizeall">Select Programming Language:</label>
+                                                <select id="language" class="form-control selectpicker fontsizeall form-select" data-live-search="true">
+                                                    <option class="fontsizeall" value="python">Python</option>
+                                                    <option class="fontsizeall" value="java">Java</option>
+                                                    <option class="fontsizeall" value="csharp">C#</option>
+                                                    <option class="fontsizeall" value="dart">Dart</option>
+                                                    <option class="fontsizeall" value="javascript">JavaScript</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 mt-1">
+                                                <label for="paradigm" class="fontsizeall">Select Programming Paradigm:</label>
+                                                <select id="paradigm" class="form-control selectpicker fontsizeall form-select" data-live-search="true">
+                                                    <option class="fontsizeall" value="default">Default</option>
+                                                    <option class="fontsizeall" value="procedural">Procedural</option>
+                                                    <option class="fontsizeall" value="object_oriented">Object-Oriented</option>
+                                                </select>
+                                            </div>
+                                        </div>                              
+                                        <div class="row mt-3">
+                                            <div class="col-md-12 mt-1">
+                                                <button type="submit" class="btn btn-primary w-100 fontsizeall">Generate Code</button>
+                                            </div>
                                         </div>
                                     </form>
-                                    </div>
                                 </div>
                             </div>
-
                         </div>
-                        <div class="card-body">
-                            <form id="parsed-form">
-                                <div class="row mt-2">
-                                    <div class="col-md-12 mt-1">
-                                        <textarea id="pdf-text" class="form-control fontsizeall" rows="7" placeholder="Question 1: ...&#10;&#10;Question 2: ...&#10;&#10;Question 3: ..."></textarea>
-                                    </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card" id="questionlist"  style="height:40vh;overflow:auto">
+                                <div class="card-header">
+                                    <h4 class="mb-0">Question List</h4>
                                 </div>
-                                <!-- Language Selection Dropdown -->
-                                <div class="row mt-3">
-                                    <div class="col-md-12 mt-1">
-                                        <label for="language" class="fontsizeall">Batasan Materi:</label>
-                                        <input class="form-control w-100 fontsizeall" type="text" id="batasan_materi" name="batasan_materi" placeholder="Example: Nested Loop with for Loop">
-                                    </div>
+                                <div class="card-body">
+                                    <div id="questions-list" class="fontsizeall "></div>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col-md-6 mt-1">
-                                        <label for="language" class="fontsizeall">Select Programming Language:</label>
-                                        <select id="language" class="form-control selectpicker fontsizeall form-select" data-live-search="true">
-                                            <option class="fontsizeall" value="python">Python</option>
-                                            <option class="fontsizeall" value="java">Java</option>
-                                            <option class="fontsizeall" value="csharp">C#</option>
-                                            <option class="fontsizeall" value="dart">Dart</option>
-                                            <option class="fontsizeall" value="javascript">JavaScript</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 mt-1">
-                                        <label for="paradigm" class="fontsizeall">Select Programming Paradigm:</label>
-                                        <select id="paradigm" class="form-control selectpicker fontsizeall form-select" data-live-search="true">
-                                            <option class="fontsizeall" value="default">Default</option>
-                                            <option class="fontsizeall" value="procedural">Procedural</option>
-                                            <option class="fontsizeall" value="object_oriented">Object-Oriented</option>
-                                        </select>
-                                    </div>
-                                </div>                              
-                                <div class="row mt-3">
-                                    <div class="col-md-12 mt-1">
-                                        <button type="submit" class="btn btn-primary w-100 fontsizeall">Generate Code</button>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 ">
+                            <div class="card" id="coderesult"  style="height:40vh;overflow:auto">
+                                <div class="card-header">
+                                    <h4 class="mb-0">Code Result</h4>
                                 </div>
-                            </form>
+                                <div class="card-body">
+                                    <div id="code-result"></div>
+                                    <div class="my-4">
+                                        <form id="guid-form" style="display: none;">
+                                            <div class="mb-3">
+                                                <select class="form-control selectpicker form-select form-select-lg" name="simmilarity_guid" id="simmilarity_guid" data-live-search="true" data-size="5" data-dropup-auto="false">
+                                            </select>    
+                                            </div> 
+                                            <button type="submit" class="btn btn-primary w-100 fontsizeall mb-2">Update Simmilarity Result</button>
+                                        </form>
+                                    </div>
+                                    
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="col-md-12" >
-                    <div class="card" id="questionlist"  style="height:40vh;overflow:auto">
-                        <div class="card-header">
-                            <h4 class="mb-0">Question List</h4>
-                        </div>
-                        <div class="card-body">
-                            <div id="questions-list" class="fontsizeall "></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 ">
-                    <div class="card" id="coderesult"  style="height:40vh;overflow:auto">
-                        <div class="card-header">
-                            <h4 class="mb-0">Code Result</h4>
-                        </div>
-                        <div class="card-body">
-                            <div id="code-result"></div>
-                            <div class="my-4">
-                                <form id="guid-form" style="display: none;">
-                                    <div class="mb-3">
-                                        <select class="form-control selectpicker form-select form-select-lg" name="simmilarity_guid" id="simmilarity_guid" data-live-search="true" data-size="5" data-dropup-auto="false">
-                                    </select>    
-                                    </div> 
-                                    <button type="submit" class="btn btn-primary w-100 fontsizeall mb-2">Update Simmilarity Result</button>
-                                </form>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
+        
         </div>
-      
-    </div>
-</main>
+    </main>
 @endsection
 @section('vendor-javascript')
     <script src="{{ asset('./assets/dashboard/datatables/jquery.dataTables.js') }}"></script>
@@ -520,6 +530,7 @@
                     $.ajax({
                         type: "POST",
                         url: "http://localhost:5000/generate-code", // URL ke Flask API
+                        // url: "https://506b-2001-448a-3032-e388-b507-f6ef-16-2004.ngrok-free.app/generate-code",
                         contentType: "application/json",
                         data: JSON.stringify({
                             question: question,
@@ -550,7 +561,7 @@
                                                 <textarea class="CodeMirror" id="modal-code-editor-${index + 1}" style="display: none;">${cleanCode}</textarea>
                                             </div>
                                             <div class="modal-footer">
-                                                <button class="btn btn-secondary" onclick="copyCodeToClipboard('modal-code-editor-${index + 1}')">Copy</button>
+                                                <!-- <button class="btn btn-secondary" onclick="copyCodeToClipboard('modal-code-editor-${index + 1}')">Copy</button> -->
                                                 <button class="btn btn-primary" data-question-id="${questionId}" data-language="${selectedLanguage}" onclick="downloadCodeWithModal(this)">Download Code</button>
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                             </div>

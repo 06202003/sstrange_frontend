@@ -5,6 +5,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
     <title>{{ config('app.name', 'Laravel') }}</title>
     <!-- Google Font: Source Sans Pro -->
     
@@ -94,10 +96,10 @@
         <footer class="main-footer">
             <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
-                IT Maranatha
+                Smart Technology & Engineering Faculty
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2024 <a href="https://it.maranatha.edu">IT Maranatha</a>.</strong> All rights
+            <strong>Copyright &copy; 2024 <a href="https://www.instagram.com/ftrc.ukm" target="_blank">FTRC Maranatha</a>.</strong> All rights
             reserved.
         </footer>
     </div>
