@@ -327,12 +327,17 @@
                                         guid: result['data'][
                                             'guid'
                                         ],
-                                        country: result['data']['country']
+                                        role: result['data']['role']
                                     },
                                     success: function(result) {
-
-                                        window.location =
-                                            "/dashboard";
+                                        //console.log(result.role)
+                                        if (result.role === 'user') {
+                                            window.location.href = '/dashboard';
+                                        } else {
+                                            window.location.href = '/manipulation';
+                                        }
+                                        // window.location =
+                                        //     "/dashboard";
 
                                     }
                                 });
@@ -348,6 +353,8 @@
                                 $('#error-message-login').removeClass("d-none");
                             }
                         });
+
+                        
 
                     },
                     error: function(xhr, status, error) {

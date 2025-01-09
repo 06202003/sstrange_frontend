@@ -14,8 +14,14 @@ class SessionController extends Controller
         $session->set('access_token', $request->access_token);
         $session->set('name', $request->name);
         $session->set('guid', $request->guid);
+        $session->set('role', $request->role);
 
-        return $request->name;
+        return response()->json([
+            'name' => $request->name,
+            'guid' => $request->guid,
+            'role' => $request->role,
+            'access_token' => $request->access_token,
+        ]);
     }
 
     public function setRegister(Request $request)

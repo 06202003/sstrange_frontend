@@ -18,6 +18,15 @@ class DashboardController extends Controller
 
         return view('home', compact('token', 'id', 'name', 'session'));
     }
+    public function manipulation(Request $request)
+    {
+        $session = new Session();
+        $token = $session->get('access_token');
+        $id = $session->get('id');
+        $name = $session->get('name');
+
+        return view('profile.manipulation', compact('token', 'id', 'name', 'session'));
+    }
     public function about(Request $request)
     {
         $session = new Session();

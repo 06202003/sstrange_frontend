@@ -123,7 +123,6 @@
                 console.log(password_confirmation)
 
                 // Regex untuk mengecek domain dan format email
-                var validDomainRegex = /@(maranatha\.ac\.id|it\.maranatha\.edu)$/; // Valid domain check
                 var studentDomainRegex = /@student\.it\.maranatha\.edu$/; // Cek untuk student.it.maranatha.edu
                 var validUsernameRegex = /^[^\d].*$/;  // Username tidak boleh dimulai dengan angka
 
@@ -133,17 +132,6 @@
                         icon: 'error',
                         title: 'Access Restricted',
                         text: 'You are a student, only lecturers can access this system.',
-                    });
-                    return; // Stop form submission
-                }
-
-
-                // Cek apakah email memiliki domain yang valid (maranatha.ac.id atau it.maranatha.edu)
-                if (!validDomainRegex.test(email)) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Invalid Email Domain',
-                        text: 'Email must belong to maranatha.ac.id or it.maranatha.edu.',
                     });
                     return; // Stop form submission
                 }
@@ -173,24 +161,34 @@
                         password_confirmation: password_confirmation,
                     },
                     beforeSend: function() {
-                        // Anda bisa menambahkan animasi loading di sini
                         // $('#loading-sign-in').removeClass("d-none");
                         // $('#btn-sign-in').addClass("d-none");
                     },
                     success: function(resultLogin) {
-                        // Jika registrasi berhasil, lakukan langkah selanjutnya
-                        $.ajax({
-                            type: "POST",
-                            url: "{{ route('session.register') }}",
-                            data: {
-                                _token: "{{ csrf_token() }}",
-                                guid: resultLogin['data']['guid'],
-                            },
-                            success: function(result) {
-                                // Redirect ke halaman verifikasi setelah pendaftaran sukses
-                                window.location = "/choose-verify";
-                            }
-                        });
+                        // Ambil email dari hasil response
+                        var email = resultLogin['data']['email'];
+
+                        // Regex untuk memeriksa domain
+                        var allowedDomains = /@(maranatha\.ac\.id|it\.maranatha\.edu)$/;
+
+                        // Periksa apakah email memiliki domain yang sesuai
+                        if (allowedDomains.test(email)) {
+                            // Redirect ke halaman verifikasi jika domain email sesuai
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ route('session.register') }}",
+                                data: {
+                                    _token: "{{ csrf_token() }}",
+                                    guid: resultLogin['data']['guid'],
+                                },
+                                success: function(result) {
+                                    window.location = "/choose-verify";
+                                },
+                            });
+                        } else {
+                            // Redirect ke halaman konfirmasi untuk domain lainnya
+                            window.location = "/confirmation";
+                        }
                     },
                     error: function(xhr, status, error) {
                         // Menampilkan error jika registrasi gagal

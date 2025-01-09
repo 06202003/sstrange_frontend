@@ -23,6 +23,7 @@ Route::group([
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::get('/register', [AuthController::class, 'register'])->name('register');
     Route::get('/choose-verify', [AuthController::class, 'chooseVerify'])->name('choose-verify');
+    Route::get('/confirmation', [AuthController::class, 'confirmation'])->name('confirmation');
     Route::get('password/reset/email', [App\Http\Controllers\PasswordController::class, 'emailOTP'])->name('password.request');
     Route::get('password/reset/password', [App\Http\Controllers\PasswordController::class, 'inputReset'])->name('password.update');
 });
@@ -31,8 +32,8 @@ Route::group([
     'middleware' => 'auth.token',
 ], function ($router) {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/manipulation', [DashboardController::class, 'manipulation'])->name('manipulation');
 
-    Route::get('/user/profile', [ProfileController::class, 'index'])->name('user-profile');
 
     Route::get('auth/google/sync', [GoogleController::class, 'syncToGoogle'])->name('google-sync');
     Route::get('auth/google/call-back/sync', [GoogleController::class, 'handleCallbackSync']);
@@ -42,6 +43,7 @@ Route::group([
     Route::get('/about', [DashboardController::class, 'about'])->name('about');
     Route::get('/codegen', [TestingController::class, 'index'])->name('codegen');
 });
+
 
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google-auth');
 Route::get('auth/google/call-back', [GoogleController::class, 'handleCallback']);

@@ -10,8 +10,8 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <!-- Google Font: Source Sans Pro -->
     <link href="
-https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.min.css
-" rel="stylesheet">
+    https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.min.css
+    " rel="stylesheet">
     <!-- Nucleo Icons -->
     <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
@@ -75,7 +75,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.min.css
                 <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-100">
             </a>
 
-            @include('layouts.navigation')
+            @include('layouts.navigationadmin')
         </aside>
 
         <!-- Content Wrapper. Contains page content -->

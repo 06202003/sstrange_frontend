@@ -23,39 +23,13 @@
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
-                <a href="{{ url('/dashboard') }}" class="nav-link text-decoration-none {{ Request::is('dashboard') ? 'active' : '' }}">
+                <a href="{{ url('/manipulation') }}" class="nav-link text-decoration-none {{ Request::is('manipulation') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-gauge"></i>
                     <p class="pnavi">{{ __('Dashboard') }}</p>
                 </a>
             </li>
             
-            <li class="nav-item">
-                <a href="{{ url('/form') }}" class="nav-link text-decoration-none {{ Request::is('form') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-file-contract"></i>
-                    <p class="pnavi">{{ __('New Similarity Report') }}</p>
-                </a>
-            </li>
-            
-            <li class="nav-item">
-                <a href="{{ url('/result') }}" class="nav-link text-decoration-none {{ Request::is('result') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-folder"></i>
-                    <p class="pnavi">{{ __('Similarity Reports') }}</p>
-                </a>
-            </li>
-            
-            <li class="nav-item">
-                <a href="{{ url('/codegen') }}" class="nav-link text-decoration-none {{ Request::is('codegen') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-code"></i>
-                    <p class="pnavi">{{ __('Code Generator') }}</p>
-                </a>
-            </li>
-            
-            <li class="nav-item">
-                <a href="{{ url('/about') }}" class="nav-link text-decoration-none {{ Request::is('about') ? 'active' : '' }}">
-                    <i class="nav-icon far fa-address-card"></i>
-                    <p class="pnavi">{{ __('About us') }}</p>
-                </a>
-            </li>
+           
         </li>
 
             <li class="nav-item">

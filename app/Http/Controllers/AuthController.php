@@ -23,6 +23,10 @@ class AuthController extends Controller
     {
         return view('auth.login');
     }
+    public function confirmation()
+    {
+        return view('auth.confirmation');
+    }
     public function register()
     {
         return view('auth.register');
