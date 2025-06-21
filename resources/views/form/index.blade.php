@@ -20,8 +20,7 @@
 @endsection
 @section('content')
     <style>
-        .subtypeinternal{
-            visibility: hidden; 
+        /* .subtypeinternal{
             position: absolute;
             width:97%;
         }
@@ -29,7 +28,7 @@
             visibility: visible; 
             position: absolute;
             width:97%;
-        }
+        } */
         @media only screen and (max-width: 425px) {
             #subtypeoption{
                 height: 60px;
@@ -57,39 +56,10 @@
                         <div class="card-body">
                             <form id="form" enctype="multipart/form-data">
                                 <div class="row mt-2 mb-3">
-                                    <div class="col-md-4 mt-1" id="subtype">
-                                        <label for="submission_type" class="form-label">Submission Type 
-                                            <i  class="fa-solid fa-circle-info" 
-                                                data-bs-toggle="tooltip" 
-                                                data-bs-placement="right" 
-                                                data-bs-html="true" 
-                                                data-bs-title="
-                                                <ol class='text-start'>
-                                                    <li>Single file: each submission is represented with either a file or a sub-directory with one file.</li>
-                                                    <li>Multiple files in a directory: each submission is represented with a sub-directory containing multiple files. All files will be concatenated prior to comparison.</li>
-                                                    <li>Multiple files in a zip: each submission is represented with a zip. The zip will be unzipped and all of its files will be concatenated prior to comparison.</li>
-                                                </ol>">
-                                            </i> : 
-                                        </label> 
-                                        <select id="submission_type" name="submission_type" class="form-control selectpicker  form-select" data-live-search="true" onchange="toggleInputSubtype()" required>
-                                            <option selected>Open this select menu</option>
-                                            <option value="file">Single file</option>
-                                            <option value="dir">Multiple files in a directory</option>
-                                            <option value="zip">Multiple files in a zip</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-8 mt-1" id="subtypeoption">
+                                    <div class="col-md-12  mt-1" id="subtypeoption">
                                         <div id="zipoption" class="subtypeinternal" >
                                             <label for="zip_file_path" class="form-label">Zip File <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="This refers to a directory containing student submissions as zip files."></i> :</label>
                                             <input class="form-control w-100" type="file" id="zip_file_path" name="zip_file_path">
-                                        </div>
-                                        <div id="diroption" class="subtypeinternal" >
-                                            <label for="dir_file_path" class="form-label">Directory Path <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="This refers to a directory containing student submissions as directory path."></i> :</label>
-                                            <input class="form-control w-100" type="text" id="dir_file_path" name="dir_file_path" placeholder="Please paste the assessment directory here">
-                                        </div>
-                                        <div id="expoption" class="notsubtypeinternal">
-                                            <label for="explaination" class="form-label">Submission Path</label>
-                                            <input class="form-control w-100" type="text" id="explaination" name="explaination" value="Please select the available Submission Type" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -137,7 +107,7 @@
                                     </div>
                                     <div class="col-md-4 mt-1" id="aigen">
                                         <label for="ai_generated_sample" class="form-label" >AI Generated Sample <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="This refers to a directory containing content generated by AI as a sample. The tool will report any submissions that are similar to it as ``suspected of AI misuse''."></i> :</label>
-                                        <input type="text" id="ai_generated_sample" name="ai_generated_sample" class="form-control" >
+                                        <input type="file" id="ai_generated_sample" name="ai_generated_sample" class="form-control" >
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -251,9 +221,7 @@
                     element: document.querySelector('#subtypeoption'),
                     intro: `
                         <ul>
-                            <li><strong>Single file:</strong> each submission is represented with either a file or a sub-directory with one file.</li>
-                            <li><strong>Multiple files in a directory:</strong> each submission is represented with a sub-directory containing multiple files. All files will be concatenated prior to comparison.</li>
-                            <li><strong>Multiple files in a zip:</strong> each submission is represented with a zip. The zip will be unzipped and all of its files will be concatenated prior to comparison.</li>
+                           <li><strong>Multiple files in a zip:</strong> each submission is represented with a zip. The zip will be unzipped and all of its files will be concatenated prior to comparison.</li>
                         </ul>
                     `
                 },
@@ -313,37 +281,7 @@
         })
 
 
-        function toggleInputSubtype() {
-            var submissionType = document.getElementById("submission_type");
-            var selectedValue = submissionType.options[submissionType.selectedIndex].value;
-            var zipoption = document.getElementById("zipoption");
-            var diroption = document.getElementById("diroption");
-            var expoption = document.getElementById("expoption");
-
-            if (selectedValue === "zip") {
-                zipoption.style.visibility = "visible";
-                zipoption.querySelector('input').required = true;
-                diroption.style.visibility = "hidden";
-                diroption.querySelector('input').required = false;
-                expoption.style.visibility = "hidden";
-            } else if (selectedValue === "dir") {
-                diroption.style.visibility = "visible";
-                diroption.querySelector('input').required = true;
-                zipoption.style.visibility = "hidden";
-                zipoption.querySelector('input').required = false;
-                expoption.style.visibility = "hidden";
-            } else if (selectedValue === "file") {
-                diroption.style.visibility = "visible";
-                diroption.querySelector('input').required = true;
-                zipoption.style.visibility = "hidden";
-                zipoption.querySelector('input').required = false;
-                expoption.style.visibility = "hidden";
-            } else {
-                zipoption.style.visibility = "hidden";
-                diroption.style.visibility = "hidden";
-                expoption.style.visibility = "visible";
-            }
-        }
+        
 
         function toggleFields() {
             var selectBox = document.getElementById("similarity_measurement");

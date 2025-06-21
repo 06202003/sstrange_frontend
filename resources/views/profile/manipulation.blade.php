@@ -212,7 +212,7 @@
                                 // Tombol untuk update email_verified_at
                                 return `
                                     <button class="btn btn-success btn-sm verify-user-btn w-100" 
-                                            data-guid="${row.guid}">
+                                            data-guid="${row.guid}" data-email="${row.email}" >
                                         Verify
                                     </button>`;
                             }
@@ -286,7 +286,7 @@
 
             $(document).on('click', '.verify-user-btn', function() {
                 var userId = $(this).data('guid'); // Ambil ID pengguna dari atribut data-id
-
+                var emailUser = $(this).data('email');
                 Swal.fire({
                     title: 'Are you sure?',
                     text: "You are about to verify this user's email.",
@@ -322,12 +322,32 @@
                                 $.unblockUI();
                                 toastr.options.closeButton = true;
                                 toastr.options.timeOut = 1000;
-                                toastr.options.onHidden = function() {
-                                    window.location.href = "{{ route('manipulation') }}";
-                                }
+                                // toastr.options.onHidden = function() {
+                                //     window.location.href = "{{ route('manipulation') }}";
+                                // }
                                 toastr.success(
                                     "Success update data", "Success"
                                 );
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{ env('URL_API') }}/api/v1/send-reminder",
+                                    data: {
+                                        email: emailUser,
+                                    },
+                                    beforeSend: function(request) {
+                                        request.setRequestHeader("Authorization", "Bearer {{ $token }}");
+                                    },
+                                    success: function(response) {
+                                        toastr.success("Reminder email sent successfully!", "Success");
+                                    },
+                                    error: function(xhr, status, error) {
+                                        toastr.error("Failed to send reminder email. Please try again.", "Error");
+                                    }
+                                });
+                                toastr.options.onHidden = function() {
+                                    window.location.href = "{{ route('manipulation') }}";
+                                };
+
                                 // Refresh tabel setelah update
                                 // $('#table-data').DataTable().ajax.reload(null, false);
                             },
@@ -384,7 +404,7 @@
                         toastr.options.closeButton = true;
                         toastr.options.timeOut = 1000;
                         toastr.options.onHidden = function() {
-                            window.location.href = "{{ route('result') }}";
+                            window.location.href = "{{ route('manipulation') }}";
                         }
                         toastr.success(
                             "Success delete data", "Success"

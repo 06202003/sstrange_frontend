@@ -166,4 +166,5 @@ class GoogleController extends Controller
             dd($e->getMessage());
         }
     }
+    
 }
